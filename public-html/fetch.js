@@ -31,7 +31,7 @@ if (elements.length <3){
     console.log("Error")
 }
 console.log(elements[3].textContent)
-var num=parseInt(elements[3].textContent.replace(",",""))
+var num=parseInt(elements[3].textContent.replace(",","").replace(".",""))
 percent=(num / 15283)*100
 var percent_str = percent.toString() //Estimated number of sps high school students according to their data
 if (percent_str.length >= 5){
