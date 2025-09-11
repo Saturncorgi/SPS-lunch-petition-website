@@ -28,6 +28,6 @@ jobs:
         #ssh-keyscan -H ${{ secrets.SERVER_HOST }} >> ~/.ssh/known_hosts
 
         # delete folder in temp staging directory if it exists
-        ssh ${{ env.SERVER_USER }}@${{ env.SERVER_HOST }} "\
+        ssh ${{ env.SERVER_USER }}@${{ env.SERVER_HOST }} -p ${{ secrets.SSH_PORT }} "\
           cd ~/website/SPS-lunch-petition-website; \
           ./deploy.sh"
