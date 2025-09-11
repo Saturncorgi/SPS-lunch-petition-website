@@ -32,8 +32,9 @@ if (elements.length <3){
 }
 console.log(elements[3].textContent)
 var num=parseInt(elements[3].textContent.replace(",",""))
-var percent = ((num / 15283)*100).toString() //Estimated number of sps high school students according to their data
-if (percent.length >= 5){
-    percent=percent.substring(0,5)
+percent=(num / 15283)*100
+var percent_str = percent.toString() //Estimated number of sps high school students according to their data
+if (percent_str.length >= 5){
+    percent_str=percent_str.substring(0,5)
 }
-document.body.innerHTML="<link rel='stylesheet' href='main.css'><body>Estimated percentage of all sps high school students who have signed: "+percent+"% <br>Total Signatures: "+num+"</body>"
+document.body.innerHTML="<header><link rel='stylesheet' href='main.css'><title>SPS lunch petition tracker</title></header><body><h1>Estimated percentage of all SPS high school students who have signed: "+percent_str+"% <br><progress align=center value="+percent+" max='100'></progress><hr>Total Signatures: "+num+"<hr><a href='https://www.change.org/p/no-more-schedule-changes?recruiter=1388024805&recruited_by_id=d12ad230-8def-11f0-8b96-2b653ccbcc4c'>To learn more and sign go here</a><br><a href='CivicEngagementActivityExcusedAbsenceFormADA.pdf'>To get mondays walkout (11am September 15th) excused use this form</a></h1><hr><a href='https://github.com/Saturncorgi/SPS-lunch-petition-website/tree/main' text-size=10pt>Think you can make a better ui? PLEASE click to contribute!</a></body>"
