@@ -13,17 +13,16 @@ jobs:
 
     steps:
     - uses: actions/checkout@v3
-
+    - name: prepare
+      run: mkdir -p ~/.ssh/ && \
+        echo "${{ secrets.SSH_KEY }}" > ~/.ssh/id_rsa && \
+        chmod 600 ~/.ssh/id_rsa && \
+        ssh-keyscan -H vpn.saturncorgi.com
     - name: Trigger deploy script
       env:
         SERVER_HOST: ${{ secrets.SSH_HOST }}
         SERVER_USER: ${{ secrets.SSH_USERNAME }}
-      run : "echo 'test'"
-      run: |
-        mkdir -p ~/.ssh/
-        echo "${{ secrets.SSH_KEY }}" > ~/.ssh/id_rsa
-        chmod 600 ~/.ssh/id_rsa
-        ssh-keyscan -H vpn.saturncorgi.com
+      run: 
         ssh ${{ env.SERVER_USER }}@${{ env.SERVER_HOST }} -p ${{ secrets.SSH_PORT }} "\
           cd ~/website/SPS-lunch-petition-website; \
           chmod +x ./deploy.sh \
