@@ -20,7 +20,6 @@ jobs:
         echo "${{ secrets.SSL_CERT }}" > server.crt
         echo "${{ secrets.SSL_KEY }}" > server.key
         echo "IdentityFile ~/.ssh/id_rsa" >> ~/.ssh/config
-        ssh-keygen -l -f ~/.ssh/id_rsa
         ssh -o StrictHostKeyChecking=no  ${{ secrets.SSH_USERNAME }}@${{ secrets.SSH_HOST }} -p ${{ secrets.SSH_PORT }} "${{ secrets.DEPLOY_COMMANDS }}"
       shell: bash
 
