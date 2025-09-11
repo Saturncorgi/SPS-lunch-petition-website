@@ -15,16 +15,16 @@ jobs:
     - name: Build the Docker image
       run: docker build . --file Dockerfile --tag my-image-name:$(date +%s)
     - name: Deploy to Remote Server
-    if: success()
-    env:
-      SSH_HOST: ${{ secrets.SSH_HOST }}
-      SSH_USERNAME: ${{ secrets.SSH_USERNAME }}
-      SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
-      SSH_PORT: ${{ secrets.SSH_PORT }}
-      DEPLOY_COMMANDS: ${{ secrets.DEPLOY_COMMANDS }}
-      run: |
-        echo "${SSH_PRIVATE_KEY}" > /tmp/private_key
-        chmod 600 /tmp/private_key
-        ssh -o StrictHostKeyChecking=no -i /tmp/private_key ${SSH_USERNAME}@${SSH_HOST} "${DEPLOY_COMMANDS}" -p ${ SSH_PORT }
-      shell: bash
+      if: success()
+      env:
+        SSH_HOST: ${{ secrets.SSH_HOST }}
+        SSH_USERNAME: ${{ secrets.SSH_USERNAME }}
+        SSH_PRIVATE_KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+        SSH_PORT: ${{ secrets.SSH_PORT }}
+        DEPLOY_COMMANDS: ${{ secrets.DEPLOY_COMMANDS }}
+        run: |
+          echo "${SSH_PRIVATE_KEY}" > /tmp/private_key
+          chmod 600 /tmp/private_key
+          ssh -o StrictHostKeyChecking=no -i /tmp/private_key ${SSH_USERNAME}@${SSH_HOST} "${DEPLOY_COMMANDS}" -p ${ SSH_PORT }
+        shell: bash
 
