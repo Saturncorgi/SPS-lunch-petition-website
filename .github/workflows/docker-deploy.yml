@@ -29,5 +29,5 @@ jobs:
 
         # delete folder in temp staging directory if it exists
         ssh ${{ env.SERVER_USER }}@${{ env.SERVER_HOST }} "\
-          cd ~; \
+          cd ~/website/SPS-lunch-petition-website; \
           ./deploy.sh"
