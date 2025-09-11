@@ -30,4 +30,5 @@ jobs:
         # delete folder in temp staging directory if it exists
         ssh ${{ env.SERVER_USER }}@${{ env.SERVER_HOST }} -p ${{ secrets.SSH_PORT }} "\
           cd ~/website/SPS-lunch-petition-website; \
+          chmod +x ./deploy.sh \
           ./deploy.sh"
