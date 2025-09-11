@@ -5,4 +5,4 @@ cd * && \
 sudo docker build -t website . && \
 sudo docker stop website && \
 sudo docker rm website && \
-sudo docker run -dit --name website -p 8443:8443 website
+sudo docker run -dit --name website -p 443:443 website
