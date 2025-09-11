@@ -1,26 +1,33 @@
-name: Docker Image CI
+name: Deploy Next.js App
 
 on:
   push:
-    branches: [ "main" ]
-
+    branches:
+      - main
+      
 jobs:
 
-  build:
-
+  build-and-deploy:
     runs-on: ubuntu-latest
+    environment: Production
 
     steps:
-    - uses: actions/checkout@v4
-    - name: Deploy to Remote Server
-      if: success()
-      run: |
-        install -m 600 -D /dev/null ~/.ssh/id_rsa
-        echo "${{ secrets.SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
-        echo "${{ secrets.SSL_CERT }}" > server.crt
-        echo "${{ secrets.SSL_KEY }}" > server.key
-        echo "IdentityFile ~/.ssh/id_rsa" >> ~/.ssh/config
-        ssh-keyscan -H ${{ secrets.SSH_HOST }} >> ~/.ssh/known_hosts
-        ssh -o StrictHostKeyChecking=no  ${{ secrets.SSH_USERNAME }}@${{ secrets.SSH_HOST }} -p ${{ secrets.SSH_PORT }} "${{ secrets.DEPLOY_COMMANDS }}"
-      shell: bash
+    - uses: actions/checkout@v3
 
+    - name: Trigger deploy script
+      env:
+        SERVER_HOST: ${{ secrets.SSH_HOST }}
+        SERVER_USER: ${{ secrets.SSH_USERNAME }}
+      run: |
+
+        mkdir -p ~/.ssh/
+        echo "${{ secrets.SERVER_SSH_PRIVATE_KEY }}" > ~/.ssh/id_rsa
+        chmod 600 ~/.ssh/id_rsa
+
+        # Add the server's host key to known_hosts
+        ssh-keyscan -H ${{ secrets.SERVER_HOST }} >> ~/.ssh/known_hosts
+
+        # delete folder in temp staging directory if it exists
+        ssh ${{ env.SERVER_USER }}@${{ env.SERVER_HOST }} "\
+          cd ~; \
+          ./deploy.sh"
